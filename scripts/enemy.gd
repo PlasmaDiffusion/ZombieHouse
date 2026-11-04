@@ -4,9 +4,9 @@ extends CharacterBody2D
 @export var direction: Vector2 = Vector2.RIGHT # Set to Vector2.RIGHT/LEFT or Vector2.UP/DOWN in the Inspector
 
 @export var min_x: float = 0.0
-@export var max_x: float = 200.0
+@export var max_x: float = 250.0
 @export var min_y: float = 0.0
-@export var max_y: float = 200.0
+@export var max_y: float = 250.0
 
 @export var damage: float = 1.0
 @export var health: float = 2.0
@@ -19,6 +19,7 @@ var iframes: float = 0.0
 
 func _ready() -> void:
 	add_to_group("enemies")
+	set_collision_mask_value(1, true)
 
 func _process(_delta: float) -> void:
 	# Blink every rendered frame while invincible.
@@ -43,6 +44,7 @@ func _physics_process(delta: float) -> void:
 	# Apply velocity and move automatically
 	velocity = direction * speed
 	move_and_slide()
+	_reverse_on_tile_collision()
 	_check_player_contact()
 	
 	# Handle animations and facing direction based on current movement
@@ -87,3 +89,15 @@ func _check_player_contact() -> void:
 		var body = hit.collider
 		if body is CharacterBody2D and (body.is_in_group("player") or body.name == &"Player"):
 			DealDamage(body)
+
+func _reverse_on_tile_collision() -> void:
+	for index in range(get_slide_collision_count()):
+		var collision := get_slide_collision(index)
+		var collider := collision.get_collider()
+		if not (collider is TileMapLayer or (collider != null and collider.is_class("TileMap"))):
+			continue
+		var body_layer := PhysicsServer2D.body_get_collision_layer(collision.get_collider_rid())
+		if (body_layer & 1) != 0 and direction.dot(collision.get_normal()) < 0.0:
+			direction = -direction
+			velocity = direction * speed
+			break
