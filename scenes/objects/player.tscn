@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://c3nbdarq76agy"]
 
-[ext_resource type="Texture2D" uid="uid://chx8lnw7a8l7i" path="res://images/Zomb.png" id="1_d7po0"]
+[ext_resource type="Script" uid="uid://bq6gvim10kned" path="res://scripts/player.gd" id="1_2147m"]
+[ext_resource type="Texture2D" uid="uid://chx8lnw7a8l7i" path="res://assets/images/Zomb.png" id="1_d7po0"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qtlar"]
 atlas = ExtResource("1_d7po0")
@@ -81,9 +82,17 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Node2D" type="Node2D" unique_id=313622511]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hbmba"]
+size = Vector2(12, 15.375)
+
+[node name="Player" type="CharacterBody2D" unique_id=1316597791]
+script = ExtResource("1_2147m")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=680450263]
 sprite_frames = SubResource("SpriteFrames_hbmba")
 animation = &"walk_down"
 frame_progress = 0.44917706
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=74953715]
+position = Vector2(0, 0.3125)
+shape = SubResource("RectangleShape2D_hbmba")

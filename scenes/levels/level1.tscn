@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://burkguiwjvyqs"]
+
+[ext_resource type="Texture2D" uid="uid://chx8lnw7a8l7i" path="res://assets/images/Zomb.png" id="1_x6ivy"]
+[ext_resource type="PackedScene" uid="uid://c3nbdarq76agy" path="res://scenes/objects/player.tscn" id="2_4tcl0"]
+
+[node name="Level1" type="Node2D" unique_id=1145337196]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2031690754]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1130436494]
+position = Vector2(38, 53)
+texture = ExtResource("1_x6ivy")
+
+[node name="Player" parent="." unique_id=1316597791 instance=ExtResource("2_4tcl0")]
