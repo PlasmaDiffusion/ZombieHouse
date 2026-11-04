@@ -160,4 +160,4 @@ shape = SubResource("RectangleShape2D_hbmba")
 position = Vector2(-9, 3)
 sprite_frames = SubResource("SpriteFrames_h5uus")
 animation = &"stab"
-frame_progress = 0.08401492
+frame_progress = 0.5082006
