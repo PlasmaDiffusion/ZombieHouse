@@ -3,8 +3,10 @@
 [ext_resource type="PackedScene" uid="uid://c3nbdarq76agy" path="res://scenes/objects/player.tscn" id="2_4tcl0"]
 [ext_resource type="PackedScene" uid="uid://dvhv7q73b0xf5" path="res://scenes/tilesets/house.tscn" id="3_bfxgj"]
 [ext_resource type="PackedScene" uid="uid://dmkrr05nfsqvo" path="res://scenes/objects/enemy.tscn" id="3_dd0lh"]
+[ext_resource type="Script" uid="uid://clafd7vd65rk5" path="res://scripts/roomController.gd" id="4_room_controller"]
 
 [node name="Level1" type="Node2D" unique_id=1145337196]
+script = ExtResource("4_room_controller")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2031690754]
 
@@ -18,4 +20,5 @@ position = Vector2(138, 116)
 position = Vector2(191, 124)
 direction = Vector2(0, 1)
 
-[node name="House" parent="." unique_id=1600881985 instance=ExtResource("3_bfxgj")]
+[node name="RoomBorder" parent="." unique_id=1600881985 instance=ExtResource("3_bfxgj")]
+z_index = -1
