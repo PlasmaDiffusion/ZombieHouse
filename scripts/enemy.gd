@@ -10,6 +10,9 @@ extends CharacterBody2D
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
+func _ready() -> void:
+	add_to_group("enemies")
+
 func _physics_process(delta: float) -> void:
 	# Check boundaries and automatically reverse direction
 	if global_position.x >= max_x:

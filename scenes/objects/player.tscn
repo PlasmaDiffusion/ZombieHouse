@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://chx8lnw7a8l7i" path="res://assets/images/Zomb.png" id="1_d7po0"]
 [ext_resource type="Texture2D" uid="uid://bfhuy1xoqhcdi" path="res://assets/images/ZombAttacking.png" id="2_h5uus"]
 [ext_resource type="Texture2D" uid="uid://dwlsia72myc7e" path="res://assets/images/Knife.png" id="4_54rde"]
+[ext_resource type="Script" uid="uid://c5yiyoanysfuk" path="res://scripts/sword.gd" id="4_q8hb4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_54rde"]
 atlas = ExtResource("2_h5uus")
@@ -145,6 +146,9 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ex85l"]
+size = Vector2(9, 6)
+
 [node name="Player" type="CharacterBody2D" unique_id=1316597791]
 script = ExtResource("1_2147m")
 
@@ -156,8 +160,15 @@ animation = &"walk_side"
 position = Vector2(0, 0.3125)
 shape = SubResource("RectangleShape2D_hbmba")
 
-[node name="SwordAnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=448283641]
+[node name="SwordArea2D" type="Area2D" parent="." unique_id=674938102]
+script = ExtResource("4_q8hb4")
+
+[node name="SwordAnimatedSprite2D" type="AnimatedSprite2D" parent="SwordArea2D" unique_id=448283641]
 position = Vector2(-9, 3)
 sprite_frames = SubResource("SpriteFrames_h5uus")
 animation = &"stab"
-frame_progress = 0.5082006
+frame_progress = 0.69809586
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SwordArea2D" unique_id=1957585601]
+position = Vector2(-11.5, 3)
+shape = SubResource("RectangleShape2D_ex85l")
