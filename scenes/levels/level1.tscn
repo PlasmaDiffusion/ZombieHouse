@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://chx8lnw7a8l7i" path="res://assets/images/Zomb.png" id="1_x6ivy"]
 [ext_resource type="PackedScene" uid="uid://c3nbdarq76agy" path="res://scenes/objects/player.tscn" id="2_4tcl0"]
+[ext_resource type="PackedScene" uid="uid://dmkrr05nfsqvo" path="res://scenes/objects/enemy.tscn" id="3_dd0lh"]
 
 [node name="Level1" type="Node2D" unique_id=1145337196]
 
@@ -12,3 +13,10 @@ position = Vector2(38, 53)
 texture = ExtResource("1_x6ivy")
 
 [node name="Player" parent="." unique_id=1316597791 instance=ExtResource("2_4tcl0")]
+
+[node name="Enemy" parent="." unique_id=1367925921 instance=ExtResource("3_dd0lh")]
+position = Vector2(138, 116)
+
+[node name="Enemy2" parent="." unique_id=857194460 instance=ExtResource("3_dd0lh")]
+position = Vector2(191, 124)
+direction = Vector2(0, 1)
