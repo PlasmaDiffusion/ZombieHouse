@@ -1,0 +1,89 @@
+[gd_scene format=3 uid="uid://c3nbdarq76agy"]
+
+[ext_resource type="Texture2D" uid="uid://chx8lnw7a8l7i" path="res://images/Zomb.png" id="1_d7po0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qtlar"]
+atlas = ExtResource("1_d7po0")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rk7hg"]
+atlas = ExtResource("1_d7po0")
+region = Rect2(20, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_se78b"]
+atlas = ExtResource("1_d7po0")
+region = Rect2(40, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3bgk5"]
+atlas = ExtResource("1_d7po0")
+region = Rect2(60, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f74lx"]
+atlas = ExtResource("1_d7po0")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ptc3g"]
+atlas = ExtResource("1_d7po0")
+region = Rect2(100, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wcu0q"]
+atlas = ExtResource("1_d7po0")
+region = Rect2(120, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bwc8c"]
+atlas = ExtResource("1_d7po0")
+region = Rect2(140, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hbmba"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qtlar")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rk7hg")
+}],
+"loop": 1,
+"name": &"walk_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_se78b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3bgk5")
+}],
+"loop": 1,
+"name": &"walk_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f74lx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ptc3g")
+}],
+"loop": 1,
+"name": &"walk_right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wcu0q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bwc8c")
+}],
+"loop": 1,
+"name": &"walk_up",
+"speed": 5.0
+}]
+
+[node name="Node2D" type="Node2D" unique_id=313622511]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=680450263]
+sprite_frames = SubResource("SpriteFrames_hbmba")
+animation = &"walk_down"
+frame_progress = 0.44917706
