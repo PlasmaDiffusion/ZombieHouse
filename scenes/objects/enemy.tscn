@@ -87,6 +87,7 @@ size = Vector2(12, 15.375)
 
 [node name="Enemy" type="CharacterBody2D" unique_id=1367925921]
 script = ExtResource("1_ja0ge")
+max_iframes = 30.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=968461657]
 sprite_frames = SubResource("SpriteFrames_gwbwg")

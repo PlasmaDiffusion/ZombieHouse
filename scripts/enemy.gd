@@ -8,12 +8,27 @@ extends CharacterBody2D
 @export var min_y: float = 0.0
 @export var max_y: float = 200.0
 
+@export var damage: float = 1.0
+@export var health: float = 2.0
+# Invincibility duration in physics frames.
+@export var max_iframes: float = 10.0
+var iframes: float = 0.0
+
+@onready var collision_shape: CollisionShape2D = $CollisionShape2D
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 func _ready() -> void:
 	add_to_group("enemies")
 
+func _process(_delta: float) -> void:
+	# Blink every rendered frame while invincible.
+	if iframes > 0.0:
+		animated_sprite.visible = not animated_sprite.visible
+	else:
+		animated_sprite.visible = true
+
 func _physics_process(delta: float) -> void:
+	iframes = maxf(0.0, iframes - 1.0)
 	# Check boundaries and automatically reverse direction
 	if global_position.x >= max_x:
 		direction = Vector2.LEFT
@@ -28,6 +43,7 @@ func _physics_process(delta: float) -> void:
 	# Apply velocity and move automatically
 	velocity = direction * speed
 	move_and_slide()
+	_check_player_contact()
 	
 	# Handle animations and facing direction based on current movement
 	if abs(direction.x) > abs(direction.y):
@@ -39,3 +55,35 @@ func _physics_process(delta: float) -> void:
 	elif direction.y < 0:
 		animated_sprite.play("walk_up")
 		animated_sprite.flip_h = false
+
+func TakeDamage(sword: Area2D) -> void:
+	if iframes > 0.0 or is_queued_for_deletion():
+		return
+	var amount: float = sword.damage
+	if amount <= 0.0:
+		return
+	health = maxf(0.0, health - amount)
+	iframes = max_iframes
+	animated_sprite.visible = iframes <= 0.0
+	if health <= 0.0:
+		queue_free()
+
+func DealDamage(player: CharacterBody2D) -> void:
+	if not is_queued_for_deletion() and player.has_method("TakeDamage"):
+		player.TakeDamage(damage)
+
+func _check_player_contact() -> void:
+	if collision_shape.disabled or collision_shape.shape == null:
+		return
+	var query := PhysicsShapeQueryParameters2D.new()
+	query.shape = collision_shape.shape
+	query.transform = collision_shape.global_transform
+	query.collision_mask = collision_mask
+	query.collide_with_areas = false
+	# Include touching bodies, which move_and_slide keeps just outside the shape.
+	query.margin = 0.1
+	query.exclude = [get_rid()]
+	for hit in get_world_2d().direct_space_state.intersect_shape(query, 256):
+		var body = hit.collider
+		if body is CharacterBody2D and (body.is_in_group("player") or body.name == &"Player"):
+			DealDamage(body)

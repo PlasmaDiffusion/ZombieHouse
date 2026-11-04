@@ -1,5 +1,10 @@
 extends CharacterBody2D
 
+@export var health: float = 5.0
+# Invincibility duration in physics frames.
+@export var max_iframes: float = 10.0
+var iframes: float = 0.0
+
 @export var speed: float = 100.0
 @export var attack_duration: float = 0.25 # Adjust how long the attack lasts in seconds
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
@@ -10,6 +15,7 @@ var is_attacking: bool = false
 var last_facing_direction: Vector2 = Vector2.DOWN
 
 func _ready() -> void:
+	add_to_group("player")
 	# Center the sword root on the sprite while preserving child alignment.
 	var sword_origin := sword_sprite.position
 	for child in sword_area.get_children():
@@ -20,6 +26,7 @@ func _ready() -> void:
 		sword_sprite.stop()
 
 func _physics_process(delta: float) -> void:
+	iframes = maxf(0.0, iframes - 1.0)
 	if is_attacking:
 		velocity = Vector2.ZERO
 		return
@@ -105,3 +112,11 @@ func update_sword_transform(dir: Vector2) -> void:
 		sword_area.position = Vector2(0, 10)
 		sword_area.rotation = deg_to_rad(-90)
 		sword_area.scale.y = -1.0
+
+func TakeDamage(amount: float) -> void:
+	if iframes > 0.0 or is_queued_for_deletion() or amount <= 0.0:
+		return
+	health = maxf(0.0, health - amount)
+	iframes = max_iframes
+	if health <= 0.0:
+		queue_free()

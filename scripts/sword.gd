@@ -1,5 +1,7 @@
 extends Area2D
 
+@export var damage: float = 1.0
+
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 @onready var player = get_parent()
 
@@ -21,5 +23,5 @@ func _physics_process(_delta: float) -> void:
 	for hit in hits:
 		var body = hit.collider
 		if body is CharacterBody2D and (body.is_in_group("enemies") or body.name == &"Enemy"):
-			if not body.is_queued_for_deletion():
-				body.queue_free()
+			if not body.is_queued_for_deletion() and body.has_method("TakeDamage"):
+				body.TakeDamage(self)
