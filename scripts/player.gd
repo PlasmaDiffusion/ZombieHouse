@@ -4,10 +4,22 @@ signal health_changed(current_health: float)
 signal died
 signal won
 
-var key_count: int = 0
-var zombie_arm_count: int = 0
+var key_count: int = 0:
+	set(value):
+		key_count = value
+		if is_node_ready():
+			PlayerState.key_count = value
+var zombie_arm_count: int = 0:
+	set(value):
+		zombie_arm_count = value
+		if is_node_ready():
+			PlayerState.zombie_arm_count = value
 
-@export var health: float = 5.0
+@export var health: float = 5.0:
+	set(value):
+		health = value
+		if is_node_ready():
+			PlayerState.health = value
 @export var maxHealth: float = 5.0
 # Invincibility duration in physics frames.
 @export var max_iframes: float = 30.0
@@ -24,6 +36,16 @@ var is_attacking: bool = false
 var last_facing_direction: Vector2 = Vector2.DOWN
 
 func _ready() -> void:
+	if PlayerState.initialized:
+		health = clampf(PlayerState.health, 0.0, maxHealth)
+		key_count = PlayerState.key_count
+		zombie_arm_count = PlayerState.zombie_arm_count
+	# Seed from the first player's Inspector values; later scenes restore these.
+	PlayerState.health = health
+	PlayerState.key_count = key_count
+	PlayerState.zombie_arm_count = zombie_arm_count
+	PlayerState.initialized = true
+	health_changed.emit(health)
 	add_to_group("player")
 	# Center the sword root on the sprite while preserving child alignment.
 	var sword_origin := sword_sprite.position
@@ -165,5 +187,6 @@ func die() -> void:
 	died.emit()
 
 	await get_tree().create_timer(5.0).timeout
+	PlayerState.reset()
 	preload("res://scripts/map.gd").reset_map()
 	get_tree().reload_current_scene()
