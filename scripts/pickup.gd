@@ -2,7 +2,7 @@ extends Area2D
 
 enum PickupType { HERB, HEART, KEY, KNIFE, ZOMBIE_ARM }
 
-@export var herb_heal_amount: float = 1.0
+@export var herb_heal_amount: float = 5.0
 
 # Keep textures in the same order as PickupType.
 @export var pickup_sprites: Array[Texture2D] = [

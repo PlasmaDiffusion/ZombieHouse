@@ -37,17 +37,17 @@ func _process(_delta: float) -> void:
 func _open_room_border() -> void:
 	if room_cleared:
 		return
-	if GameMap.is_win_room():
-		$CanvasLayer/HUD.win()
-		room_cleared = true
-		set_process(false)
-		return
 	if not is_instance_valid(room_border):
 		room_border = find_child("RoomBorder", true, false) as TileMapLayer
 	if room_border == null:
 		return
 
 	var bounds := room_border.get_used_rect()
+	if GameMap.is_win_room():
+		_spawn_room_pickup(bounds, Pickup.PickupType.HEART)
+		room_cleared = true
+		set_process(false)
+		return
 	for cell in room_border.get_used_cells():
 		if room_border.get_cell_atlas_coords(cell) == Vector2i(1, 2):
 			if not GameMap.can_move(_border_direction(cell, bounds)):
@@ -63,9 +63,9 @@ func _open_room_border() -> void:
 		_spawn_room_pickup(bounds)
 	set_process(false)
 
-func _spawn_room_pickup(bounds: Rect2i) -> void:
+func _spawn_room_pickup(bounds: Rect2i, pickup_type: int = -1) -> void:
 	var pickup := PICKUP_SCENE.instantiate() as Area2D
-	pickup.pickup_type = [
+	pickup.pickup_type = pickup_type if pickup_type >= 0 else [
 		Pickup.PickupType.HERB,
 		Pickup.PickupType.KEY,
 		Pickup.PickupType.ZOMBIE_ARM,
