@@ -1,10 +1,10 @@
 extends Control
 
 const ROOM_LAYOUT = [
-	"xx---",
-	"x----",
-	"xox--",
-	"-----",
+	"xxxx-",
+	"x--xx",
+	"xox-x",
+	"--x--",
 ]
 const START_ROOM = Vector2i(1, 2)
 const CELL_SIZE = 5

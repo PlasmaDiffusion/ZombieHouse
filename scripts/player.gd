@@ -4,8 +4,9 @@ signal health_changed(current_health: float)
 signal died
 
 @export var health: float = 5.0
+@export var maxHealth: float = 5.0
 # Invincibility duration in physics frames.
-@export var max_iframes: float = 10.0
+@export var max_iframes: float = 30.0
 var iframes: float = 0.0
 
 @export var speed: float = 100.0
