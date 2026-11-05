@@ -151,4 +151,5 @@ func die() -> void:
 	died.emit()
 
 	await get_tree().create_timer(5.0).timeout
+	preload("res://scripts/map.gd").reset_map()
 	get_tree().reload_current_scene()

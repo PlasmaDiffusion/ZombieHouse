@@ -1,5 +1,7 @@
 extends Area2D
 
+const GameMap = preload("res://scripts/map.gd")
+
 @export_file("*.tscn") var destination_scene: String = "res://scenes/levels/level1.tscn"
 @export var spawn_offset: float = 32.0
 
@@ -23,17 +25,23 @@ func _on_body_entered(body: Node2D) -> void:
 		return
 	if body.get("is_dead") == true or not ARRIVALS.has(String(name)):
 		return
+	var direction: Vector2i = GameMap.WARP_DIRECTIONS[String(name)]
+	if not GameMap.can_move(direction):
+		return
 	transition_pending = true
 	# Scene changes must happen after physics finishes processing collisions.
 	_change_scene.call_deferred()
 
 func _change_scene() -> void:
 	var tree := get_tree()
+	var previous_room: Vector2i = GameMap.current_room
+	GameMap.current_room += GameMap.WARP_DIRECTIONS[String(name)]
 	var arrival: Array = ARRIVALS[String(name)]
 	var on_loaded := _place_player.bind(tree, arrival[0], arrival[1] * spawn_offset)
 	tree.scene_changed.connect(on_loaded, CONNECT_ONE_SHOT)
 	var error := tree.change_scene_to_file(destination_scene)
 	if error != OK:
+		GameMap.current_room = previous_room
 		tree.scene_changed.disconnect(on_loaded)
 		transition_pending = false
 		push_error("Could not load warp destination: %s" % destination_scene)

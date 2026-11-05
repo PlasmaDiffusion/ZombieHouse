@@ -8,6 +8,8 @@
 [ext_resource type="Script" uid="uid://bkr8ctsalica6" path="res://scripts/hud.gd" id="5_hud"]
 [ext_resource type="PackedScene" uid="uid://c6kdynws2lnx3" path="res://scenes/objects/warp.tscn" id="7_2r1tl"]
 
+[ext_resource type="Script" path="res://scripts/map.gd" id="8_map"]
+
 [node name="Level1" type="Node2D" unique_id=1145337196]
 script = ExtResource("4_room_controller")
 
@@ -52,6 +54,18 @@ text = "You died
 Restarting in 5 seconds..."
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Map" type="Control" parent="CanvasLayer/HUD"]
+layout_mode = 0
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -33.0
+offset_top = 6.0
+offset_right = -8.0
+offset_bottom = 26.0
+grow_horizontal = 0
+mouse_filter = 2
+script = ExtResource("8_map")
 
 [node name="Player" parent="." unique_id=1316597791 instance=ExtResource("2_4tcl0")]
 position = Vector2(85, 24)
