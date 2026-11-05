@@ -81,6 +81,7 @@ func _physics_process(delta: float) -> void:
 	
 	velocity = input_vector * speed
 	move_and_slide()
+	_check_locked_tiles()
 	
 	if input_vector != Vector2.ZERO:
 		if input_vector.x != 0:
@@ -98,6 +99,23 @@ func _physics_process(delta: float) -> void:
 	else:
 		animated_sprite.stop()
 		animated_sprite.frame = 0
+
+func _check_locked_tiles() -> void:
+	if key_count <= 0:
+		return
+	for index in range(get_slide_collision_count()):
+		var collision := get_slide_collision(index)
+		var layer := collision.get_collider() as TileMapLayer
+		if layer == null:
+			continue
+		var cell := layer.get_coords_for_body_rid(collision.get_collider_rid())
+		if layer.get_cell_atlas_coords(cell) != Vector2i(2, 2):
+			continue
+		key_count -= 1
+		for locked_cell in layer.get_used_cells():
+			if layer.get_cell_atlas_coords(locked_cell) in [Vector2i(2, 2), Vector2i(3, 2)]:
+				layer.set_cell(locked_cell, layer.get_cell_source_id(locked_cell), Vector2i(2, 0))
+		return
 
 func start_attack() -> void:
 	if is_dead:
