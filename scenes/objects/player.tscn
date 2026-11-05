@@ -167,7 +167,7 @@ script = ExtResource("4_q8hb4")
 position = Vector2(-9, 3)
 sprite_frames = SubResource("SpriteFrames_h5uus")
 animation = &"stab"
-frame_progress = 0.9574111
+frame_progress = 0.21210743
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SwordArea2D" unique_id=1957585601]
 position = Vector2(-11.5, 3)

@@ -11,6 +11,7 @@ var iframes: float = 0.0
 @onready var sword_area: Area2D = $SwordArea2D
 @onready var sword_sprite: AnimatedSprite2D = $SwordArea2D/SwordAnimatedSprite2D
 
+var is_dead: bool = false
 var is_attacking: bool = false
 var last_facing_direction: Vector2 = Vector2.DOWN
 
@@ -24,6 +25,13 @@ func _ready() -> void:
 	if sword_sprite:
 		sword_sprite.visible = false
 		sword_sprite.stop()
+
+func _process(_delta: float) -> void:
+	# Blink every rendered frame while invincible.
+	if iframes > 0.0:
+		animated_sprite.visible = not animated_sprite.visible
+	else:
+		animated_sprite.visible = true
 
 func _physics_process(delta: float) -> void:
 	iframes = maxf(0.0, iframes - 1.0)
@@ -58,6 +66,8 @@ func _physics_process(delta: float) -> void:
 		animated_sprite.frame = 0
 
 func start_attack() -> void:
+	if is_dead:
+		return
 	is_attacking = true
 	
 	if sword_sprite:
@@ -114,9 +124,26 @@ func update_sword_transform(dir: Vector2) -> void:
 		sword_area.scale.y = -1.0
 
 func take_damage(amount: float) -> void:
-	if iframes > 0.0 or is_queued_for_deletion() or amount <= 0.0:
+	if is_dead or iframes > 0.0 or is_queued_for_deletion() or amount <= 0.0:
 		return
 	health = maxf(0.0, health - amount)
 	iframes = max_iframes
+	animated_sprite.visible = iframes <= 0.0
 	if health <= 0.0:
-		queue_free()
+		die()
+
+func die() -> void:
+	if is_dead:
+		return
+	is_dead = true
+	velocity = Vector2.ZERO
+	end_attack()
+	animated_sprite.stop()
+	set_process(false)
+	set_physics_process(false)
+	sword_area.set_physics_process(false)
+	$CollisionShape2D.set_deferred("disabled", true)
+	hide()
+
+	await get_tree().create_timer(5.0).timeout
+	get_tree().reload_current_scene()
