@@ -1,5 +1,8 @@
 extends CharacterBody2D
 
+signal health_changed(current_health: float)
+signal died
+
 @export var health: float = 5.0
 # Invincibility duration in physics frames.
 @export var max_iframes: float = 10.0
@@ -127,6 +130,7 @@ func take_damage(amount: float) -> void:
 	if is_dead or iframes > 0.0 or is_queued_for_deletion() or amount <= 0.0:
 		return
 	health = maxf(0.0, health - amount)
+	health_changed.emit(health)
 	iframes = max_iframes
 	animated_sprite.visible = iframes <= 0.0
 	if health <= 0.0:
@@ -144,6 +148,7 @@ func die() -> void:
 	sword_area.set_physics_process(false)
 	$CollisionShape2D.set_deferred("disabled", true)
 	hide()
+	died.emit()
 
 	await get_tree().create_timer(5.0).timeout
 	get_tree().reload_current_scene()
