@@ -10,13 +10,13 @@
 atlas = ExtResource("2_h5uus")
 region = Rect2(0, 0, 16, 16)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_ksjmp"]
+atlas = ExtResource("2_h5uus")
+region = Rect2(20, 0, 16, 16)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_q8hb4"]
 atlas = ExtResource("2_h5uus")
 region = Rect2(40, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ksjmp"]
-atlas = ExtResource("2_h5uus")
-region = Rect2(120, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qtlar"]
 atlas = ExtResource("1_d7po0")
@@ -62,7 +62,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_q8hb4")
+"texture": SubResource("AtlasTexture_ksjmp")
 }],
 "loop": 1,
 "name": &"attack_side",
@@ -70,7 +70,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ksjmp")
+"texture": SubResource("AtlasTexture_q8hb4")
 }],
 "loop": 1,
 "name": &"attack_up",
@@ -154,7 +154,7 @@ script = ExtResource("1_2147m")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=680450263]
 sprite_frames = SubResource("SpriteFrames_hbmba")
-animation = &"walk_side"
+animation = &"attack_side"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=74953715]
 position = Vector2(0, 0.3125)
@@ -167,7 +167,7 @@ script = ExtResource("4_q8hb4")
 position = Vector2(-9, 3)
 sprite_frames = SubResource("SpriteFrames_h5uus")
 animation = &"stab"
-frame_progress = 0.69809586
+frame_progress = 0.9574111
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SwordArea2D" unique_id=1957585601]
 position = Vector2(-11.5, 3)
