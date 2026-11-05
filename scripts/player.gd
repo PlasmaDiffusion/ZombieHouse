@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+const PLAYER_PROJECTILE_SCENE = preload("res://scenes/objects/playerProjectile.tscn")
+
 signal health_changed(current_health: float)
 signal died
 signal won
@@ -11,7 +13,7 @@ var key_count: int = 0:
 		if is_node_ready():
 			PlayerState.key_count = value
 			inventory_changed.emit()
-var zombie_arm_count: int = 0:
+var zombie_arm_count: int = 10:
 	set(value):
 		zombie_arm_count = value
 		if is_node_ready():
@@ -69,6 +71,8 @@ func _process(_delta: float) -> void:
 
 func _physics_process(delta: float) -> void:
 	iframes = maxf(0.0, iframes - 1.0)
+	if Input.is_action_just_pressed("ranged_attack") && zombie_arm_count > 0:
+		shoot_projectile()
 	if is_attacking:
 		velocity = Vector2.ZERO
 		return
@@ -99,6 +103,15 @@ func _physics_process(delta: float) -> void:
 	else:
 		animated_sprite.stop()
 		animated_sprite.frame = 0
+
+func shoot_projectile() -> void:
+	if is_dead || zombie_arm_count <= 0:
+		return
+	var projectile := PLAYER_PROJECTILE_SCENE.instantiate() as Area2D
+	projectile.direction = last_facing_direction
+	projectile.position = get_parent().to_local(global_position + last_facing_direction * 12.0)
+	get_parent().add_child(projectile)
+	zombie_arm_count -= 1
 
 func _check_locked_tiles() -> void:
 	if key_count <= 0:

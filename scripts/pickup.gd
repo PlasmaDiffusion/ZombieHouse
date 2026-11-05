@@ -38,7 +38,7 @@ func _on_body_entered(body: Node2D) -> void:
 		PickupType.KEY:
 			body.key_count += 1
 		PickupType.ZOMBIE_ARM:
-			body.zombie_arm_count += 1
+			body.zombie_arm_count += 5
 		PickupType.KNIFE:
 			pass
 	queue_free()

@@ -4,10 +4,10 @@ extends Node
 var initialized: bool = false
 var health: float = 5.0
 var key_count: int = 0
-var zombie_arm_count: int = 0
+var zombie_arm_count: int = 10
 
 func reset() -> void:
 	initialized = false
 	health = 5.0
 	key_count = 0
-	zombie_arm_count = 0
+	zombie_arm_count = 10

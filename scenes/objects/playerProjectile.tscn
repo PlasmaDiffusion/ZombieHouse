@@ -1,45 +1,17 @@
 [gd_scene format=3 uid="uid://0e4djl3vss6n"]
 
-[ext_resource type="Script" uid="uid://rca8iys1txit" path="res://scripts/enemies/projectile.gd" id="1_eq0x0"]
-[ext_resource type="Texture2D" uid="uid://b275hek8dqs25" path="res://assets/images/EyeProjectile.png" id="2_211e1"]
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_projectile"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("2_211e1")
-}],
-"loop": 1,
-"name": &"walk_down",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("2_211e1")
-}],
-"loop": 1,
-"name": &"walk_right",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("2_211e1")
-}],
-"loop": 1,
-"name": &"walk_up",
-"speed": 5.0
-}]
+[ext_resource type="Script" uid="uid://bgqgta0ek21ba" path="res://scripts/player_projectile.gd" id="1_yye5f"]
+[ext_resource type="Texture2D" uid="uid://c36m10ad8h5d1" path="res://assets/images/ZombieArm.png" id="2_yye5f"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8a7m2"]
-size = Vector2(5, 5)
+size = Vector2(9, 5)
 
-[node name="Projectile" type="CharacterBody2D" unique_id=1907016316]
-script = ExtResource("1_eq0x0")
-canAutomaticallyMove = false
+[node name="PlayerProjectile" type="Area2D" unique_id=74881926]
+script = ExtResource("1_yye5f")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=87589299]
-sprite_frames = SubResource("SpriteFrames_projectile")
-animation = &"walk_down"
+[node name="AnimatedSprite2D" type="Sprite2D" parent="." unique_id=1339756201]
+texture = ExtResource("2_yye5f")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1588593210]
+position = Vector2(-1.5, -0.5)
 shape = SubResource("RectangleShape2D_8a7m2")

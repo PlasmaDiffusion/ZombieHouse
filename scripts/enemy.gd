@@ -64,10 +64,16 @@ func _physics_process(delta: float) -> void:
 		animated_sprite.play("walk_up")
 		animated_sprite.flip_h = false
 
-func take_damage(sword: Area2D) -> void:
+func take_damage(weapon: Node) -> void:
 	if iframes > 0.0 or is_queued_for_deletion() or !canKill:
 		return
-	var amount: float = sword.damage
+	if not is_instance_valid(weapon):
+		return
+	# Both sword and zombie arm weapons provide a numeric damage property.
+	var weapon_damage: Variant = weapon.get("damage")
+	if not (weapon_damage is float or weapon_damage is int):
+		return
+	var amount: float = float(weapon_damage)
 	if amount <= 0.0:
 		return
 	health = maxf(0.0, health - amount)
