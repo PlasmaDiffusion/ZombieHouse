@@ -1,6 +1,8 @@
 class_name Enemy
 extends CharacterBody2D
 
+const HURT_SOUND = preload("res://assets/sounds/enemyHurt.wav")
+
 @export var speed: float = 60.0
 @export var direction: Vector2 = Vector2.RIGHT # Set to Vector2.RIGHT/LEFT or Vector2.UP/DOWN in the Inspector
 
@@ -77,6 +79,10 @@ func take_damage(weapon: Node) -> void:
 	if amount <= 0.0:
 		return
 	health = maxf(0.0, health - amount)
+	# Play on the player so the effect survives this enemy's death.
+	var player := get_tree().get_first_node_in_group("player")
+	if player != null and player.has_method("play_sound"):
+		player.play_sound(HURT_SOUND)
 	iframes = max_iframes
 	animated_sprite.visible = iframes <= 0.0
 	if health <= 0.0:

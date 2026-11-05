@@ -1,6 +1,13 @@
 extends CharacterBody2D
 
 const PLAYER_PROJECTILE_SCENE = preload("res://scenes/objects/playerProjectile.tscn")
+const STAB_SOUND = preload("res://assets/sounds/stab.wav")
+const THROW_SOUND = preload("res://assets/sounds/throw.wav")
+const PICKUP_SOUND = preload("res://assets/sounds/pickup.wav")
+const WIN_PICKUP_SOUND = preload("res://assets/sounds/winPickup.wav")
+const HURT_SOUND = preload("res://assets/sounds/playerHurt.wav")
+const DEATH_SOUND = preload("res://assets/sounds/death.wav")
+const UNLOCK_SOUND = preload("res://assets/sounds/unlock.wav")
 
 signal health_changed(current_health: float)
 signal died
@@ -35,12 +42,14 @@ var iframes: float = 0.0
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var sword_area: Area2D = $SwordArea2D
 @onready var sword_sprite: AnimatedSprite2D = $SwordArea2D/SwordAnimatedSprite2D
+@onready var audio_player: AudioStreamPlayer = $AudioStreamPlayer
 
 var is_dead: bool = false
 var is_attacking: bool = false
 var last_facing_direction: Vector2 = Vector2.DOWN
 
 func _ready() -> void:
+	audio_player.play()
 	if PlayerState.initialized:
 		health = clampf(PlayerState.health, 0.0, maxHealth)
 		key_count = PlayerState.key_count
@@ -114,6 +123,7 @@ func shoot_projectile() -> void:
 	projectile.position = get_parent().to_local(global_position + last_facing_direction * 12.0)
 	get_parent().add_child(projectile)
 	zombie_arm_count -= 1
+	play_sound(THROW_SOUND)
 
 func _check_locked_tiles() -> void:
 	if key_count <= 0:
@@ -130,6 +140,7 @@ func _check_locked_tiles() -> void:
 		if layer.get_cell_atlas_coords(cell) != Vector2i(2, 2):
 			continue
 		key_count -= 1
+		play_sound(UNLOCK_SOUND)
 		for locked_cell in layer.get_used_cells():
 			if layer.get_cell_atlas_coords(locked_cell) in [Vector2i(2, 2), Vector2i(3, 2)]:
 				layer.set_cell(locked_cell, layer.get_cell_source_id(locked_cell), Vector2i(2, 0))
@@ -139,6 +150,7 @@ func start_attack() -> void:
 	if is_dead:
 		return
 	is_attacking = true
+	play_sound(STAB_SOUND)
 	
 	if sword_sprite:
 		sword_sprite.visible = true
@@ -199,13 +211,24 @@ func heal(amount: float) -> void:
 	health = minf(maxHealth, health + amount)
 	health_changed.emit(health)
 
+func play_sound(sound: AudioStream) -> void:
+	# One non-positional player mixes overlapping effects without cutting them off.
+	var playback := audio_player.get_stream_playback() as AudioStreamPlaybackPolyphonic
+	if playback != null:
+		playback.play_stream(sound)
+
+func play_pickup_sound() -> void:
+	play_sound(PICKUP_SOUND)
+
 func win() -> void:
+	play_sound(WIN_PICKUP_SOUND)
 	won.emit()
 
 func take_damage(amount: float) -> void:
 	if is_dead or iframes > 0.0 or is_queued_for_deletion() or amount <= 0.0:
 		return
 	health = maxf(0.0, health - amount)
+	play_sound(HURT_SOUND)
 	health_changed.emit(health)
 	iframes = max_iframes
 	animated_sprite.visible = iframes <= 0.0
@@ -216,6 +239,7 @@ func die() -> void:
 	if is_dead:
 		return
 	is_dead = true
+	play_sound(DEATH_SOUND)
 	velocity = Vector2.ZERO
 	end_attack()
 	animated_sprite.stop()

@@ -149,6 +149,9 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ex85l"]
 size = Vector2(9, 6)
 
+[sub_resource type="AudioStreamPolyphonic" id="AudioStream_hbmba"]
+polyphony = 32
+
 [node name="Player" type="CharacterBody2D" unique_id=1316597791]
 script = ExtResource("1_2147m")
 
@@ -172,3 +175,6 @@ frame_progress = 0.21210743
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SwordArea2D" unique_id=1957585601]
 position = Vector2(-11.5, 3)
 shape = SubResource("RectangleShape2D_ex85l")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=977134199]
+stream = SubResource("AudioStream_hbmba")

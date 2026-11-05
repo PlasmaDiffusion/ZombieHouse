@@ -30,6 +30,8 @@ func _on_body_entered(body: Node2D) -> void:
 		return
 	if body.get("is_dead") == true:
 		return
+	if pickup_type != PickupType.HEART:
+		body.play_pickup_sound()
 	match pickup_type:
 		PickupType.HERB:
 			body.heal(herb_heal_amount)
