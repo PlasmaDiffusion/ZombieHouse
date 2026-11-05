@@ -113,7 +113,7 @@ func update_sword_transform(dir: Vector2) -> void:
 		sword_area.rotation = deg_to_rad(-90)
 		sword_area.scale.y = -1.0
 
-func TakeDamage(amount: float) -> void:
+func take_damage(amount: float) -> void:
 	if iframes > 0.0 or is_queued_for_deletion() or amount <= 0.0:
 		return
 	health = maxf(0.0, health - amount)

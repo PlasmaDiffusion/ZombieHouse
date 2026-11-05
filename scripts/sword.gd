@@ -23,5 +23,5 @@ func _physics_process(_delta: float) -> void:
 	for hit in hits:
 		var body = hit.collider
 		if body is CharacterBody2D and (body.is_in_group("enemies") or body.name == &"Enemy"):
-			if not body.is_queued_for_deletion() and body.has_method("TakeDamage"):
-				body.TakeDamage(self)
+			if not body.is_queued_for_deletion() and body.has_method("take_damage"):
+				body.take_damage(self)

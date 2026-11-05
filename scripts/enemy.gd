@@ -58,7 +58,7 @@ func _physics_process(delta: float) -> void:
 		animated_sprite.play("walk_up")
 		animated_sprite.flip_h = false
 
-func TakeDamage(sword: Area2D) -> void:
+func take_damage(sword: Area2D) -> void:
 	if iframes > 0.0 or is_queued_for_deletion():
 		return
 	var amount: float = sword.damage
@@ -70,9 +70,9 @@ func TakeDamage(sword: Area2D) -> void:
 	if health <= 0.0:
 		queue_free()
 
-func DealDamage(player: CharacterBody2D) -> void:
-	if not is_queued_for_deletion() and player.has_method("TakeDamage"):
-		player.TakeDamage(damage)
+func deal_damage(player: CharacterBody2D) -> void:
+	if not is_queued_for_deletion() and player.has_method("take_damage"):
+		player.take_damage(damage)
 
 func _check_player_contact() -> void:
 	if collision_shape.disabled or collision_shape.shape == null:
@@ -88,7 +88,7 @@ func _check_player_contact() -> void:
 	for hit in get_world_2d().direct_space_state.intersect_shape(query, 256):
 		var body = hit.collider
 		if body is CharacterBody2D and (body.is_in_group("player") or body.name == &"Player"):
-			DealDamage(body)
+			deal_damage(body)
 
 func _reverse_on_tile_collision() -> void:
 	for index in range(get_slide_collision_count()):
