@@ -1,6 +1,8 @@
 extends Node2D
 
 const GameMap = preload("res://scripts/map.gd")
+const Pickup = preload("res://scripts/pickup.gd")
+const PICKUP_SCENE = preload("res://scenes/objects/pickup.tscn")
 
 # Add scenes whose root inherits Enemy and has a CollisionShape2D child.
 @export var enemy_scenes: Array[PackedScene] = [
@@ -33,6 +35,8 @@ func _process(_delta: float) -> void:
 	_open_room_border()
 
 func _open_room_border() -> void:
+	if room_cleared:
+		return
 	if GameMap.is_win_room():
 		$CanvasLayer/HUD.win()
 		room_cleared = true
@@ -55,7 +59,21 @@ func _open_room_border() -> void:
 				room_border.get_cell_alternative_tile(cell)
 			)
 	room_cleared = true
+	if randi_range(1, 4) == 1:
+		_spawn_room_pickup(bounds)
 	set_process(false)
+
+func _spawn_room_pickup(bounds: Rect2i) -> void:
+	var pickup := PICKUP_SCENE.instantiate() as Area2D
+	pickup.pickup_type = [
+		Pickup.PickupType.HERB,
+		Pickup.PickupType.KEY,
+		Pickup.PickupType.ZOMBIE_ARM,
+	].pick_random()
+	var tile_size := Vector2(room_border.tile_set.tile_size)
+	var center := room_border.map_to_local(bounds.position) + (Vector2(bounds.size) - Vector2.ONE) * tile_size * 0.5
+	pickup.position = to_local(room_border.to_global(center))
+	add_child(pickup)
 
 func _border_direction(cell: Vector2i, bounds: Rect2i) -> Vector2i:
 	# Door tiles belong to the closest outside edge of the room.

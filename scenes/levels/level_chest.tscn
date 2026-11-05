@@ -1,0 +1,97 @@
+[gd_scene format=4 uid="uid://xfstofgvmbh"]
+
+[ext_resource type="Script" uid="uid://clafd7vd65rk5" path="res://scripts/roomController.gd" id="1_cq067"]
+[ext_resource type="Script" uid="uid://bkr8ctsalica6" path="res://scripts/hud.gd" id="2_8ntit"]
+[ext_resource type="Script" uid="uid://7mcelq34bdku" path="res://scripts/health_bar.gd" id="3_ioka7"]
+[ext_resource type="FontFile" uid="uid://dnfnlkdssp6w4" path="res://assets/fonts/Minecraft.ttf" id="4_cdar3"]
+[ext_resource type="Script" uid="uid://diy5qlclgsfjw" path="res://scripts/map.gd" id="5_h23aa"]
+[ext_resource type="PackedScene" uid="uid://c3nbdarq76agy" path="res://scenes/objects/player.tscn" id="6_xbgqr"]
+[ext_resource type="PackedScene" uid="uid://dvhv7q73b0xf5" path="res://scenes/tilesets/house.tscn" id="7_rf17o"]
+[ext_resource type="PackedScene" uid="uid://c6kdynws2lnx3" path="res://scenes/objects/warp.tscn" id="8_3nd6f"]
+
+[node name="Level1" type="Node2D" unique_id=1145337196]
+script = ExtResource("1_cq067")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2031690754]
+
+[node name="HUD" type="Control" parent="CanvasLayer" unique_id=1596769565]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_8ntit")
+
+[node name="HealthBar" type="Control" parent="CanvasLayer/HUD" unique_id=721841417]
+anchors_preset = 0
+offset_left = 8.0
+offset_top = 6.0
+offset_right = 33.0
+offset_bottom = 11.0
+mouse_filter = 2
+script = ExtResource("3_ioka7")
+
+[node name="DeathLabel" type="Label" parent="CanvasLayer/HUD" unique_id=763696566]
+visible = false
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_fonts/font = ExtResource("4_cdar3")
+theme_override_font_sizes/font_size = 12
+text = "You died
+Restarting in 5 seconds..."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WinLabel" type="Label" parent="CanvasLayer/HUD" unique_id=814311670]
+visible = false
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_fonts/font = ExtResource("4_cdar3")
+theme_override_font_sizes/font_size = 12
+text = "A Winner Is You!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Map" type="Control" parent="CanvasLayer/HUD" unique_id=1304937535]
+anchors_preset = 0
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -33.0
+offset_top = 6.0
+offset_right = -8.0
+offset_bottom = 26.0
+grow_horizontal = 0
+mouse_filter = 2
+script = ExtResource("5_h23aa")
+
+[node name="Player" parent="." unique_id=1316597791 instance=ExtResource("6_xbgqr")]
+position = Vector2(85, 24)
+
+[node name="RoomBorder" parent="." unique_id=1600881985 instance=ExtResource("7_rf17o")]
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAACAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAFAAAAAAAAAAAAAAAGAAAAAAAAAAAAAAAJAAAAAAAAAAAAAAAKAAAAAAAAAAAAAAALAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAANAAAAAAAAAAAAAAAOAAAAAAAAAAAAAAAPAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA0AAAAAAAAAAAAPAA0AAAAAAAAAAAAPAAwAAAAAAAAAAAAPAAsAAAAAAAAAAAAPAAoAAAAAAAAAAAAPAAkAAAAAAAAAAAAPAAgAAAAAAAAAAAAPAAUAAAAAAAAAAAAPAAQAAAAAAAAAAAAPAAMAAAAAAAAAAAAPAAIAAAAAAAAAAAAPAAEAAAAAAAAAAAABAA0AAAAAAAAAAAACAA0AAAAAAAAAAAADAA0AAAAAAAAAAAAEAA0AAAAAAAAAAAAFAA0AAAAAAAAAAAAGAA0AAAAAAAAAAAAJAA0AAAAAAAAAAAAKAA0AAAAAAAAAAAALAA0AAAAAAAAAAAAMAA0AAAAAAAAAAAANAA0AAAAAAAAAAAAOAA0AAAAAAAAAAAAAAAcAAAABAAIAAAAAAAYAAAABAAIAAAAHAAAAAAABAAIAAAAIAAAAAAABAAIAAAAPAAYAAAABAAIAAAAPAAcAAAABAAIAAAAHAA0AAAABAAIAAAAIAA0AAAABAAIAAAAHAAcAAAACAAIAAAA=")
+
+[node name="WarpL" parent="." unique_id=1586354326 instance=ExtResource("8_3nd6f")]
+position = Vector2(-10, 111)
+
+[node name="WarpD" parent="WarpL" unique_id=682142330 instance=ExtResource("8_3nd6f")]
+position = Vector2(139, 123)
+
+[node name="WarpR" parent="WarpL" unique_id=1300159128 instance=ExtResource("8_3nd6f")]
+position = Vector2(276, -1)
+
+[node name="WarpU" parent="WarpL" unique_id=295376916 instance=ExtResource("8_3nd6f")]
+position = Vector2(140, -121)
