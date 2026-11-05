@@ -3,17 +3,20 @@ extends CharacterBody2D
 signal health_changed(current_health: float)
 signal died
 signal won
+signal inventory_changed
 
 var key_count: int = 0:
 	set(value):
 		key_count = value
 		if is_node_ready():
 			PlayerState.key_count = value
+			inventory_changed.emit()
 var zombie_arm_count: int = 0:
 	set(value):
 		zombie_arm_count = value
 		if is_node_ready():
 			PlayerState.zombie_arm_count = value
+			inventory_changed.emit()
 
 @export var health: float = 5.0:
 	set(value):
@@ -46,6 +49,7 @@ func _ready() -> void:
 	PlayerState.zombie_arm_count = zombie_arm_count
 	PlayerState.initialized = true
 	health_changed.emit(health)
+	inventory_changed.emit()
 	add_to_group("player")
 	# Center the sword root on the sprite while preserving child alignment.
 	var sword_origin := sword_sprite.position

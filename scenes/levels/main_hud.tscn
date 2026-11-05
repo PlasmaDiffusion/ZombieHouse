@@ -1,0 +1,121 @@
+[gd_scene format=3 uid="uid://db8cu5743ql4f"]
+
+[ext_resource type="Script" uid="uid://bkr8ctsalica6" path="res://scripts/hud.gd" id="1_4rcp0"]
+[ext_resource type="Script" uid="uid://7mcelq34bdku" path="res://scripts/health_bar.gd" id="2_aq2va"]
+[ext_resource type="FontFile" uid="uid://dnfnlkdssp6w4" path="res://assets/fonts/Minecraft.ttf" id="3_ok54l"]
+[ext_resource type="Script" uid="uid://diy5qlclgsfjw" path="res://scripts/map.gd" id="4_wn2w2"]
+[ext_resource type="Texture2D" uid="uid://1fp85bfaepx4" path="res://assets/images/Key.png" id="5_odnfm"]
+[ext_resource type="Texture2D" uid="uid://c36m10ad8h5d1" path="res://assets/images/ZombieArm.png" id="6_7sg2c"]
+
+[node name="CanvasLayer" type="CanvasLayer" unique_id=1740813351]
+
+[node name="HUD" type="Control" parent="." unique_id=1428302784]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_4rcp0")
+
+[node name="HealthBar" type="Control" parent="HUD" unique_id=1827423976]
+anchors_preset = 0
+offset_left = 8.0
+offset_top = 6.0
+offset_right = 33.0
+offset_bottom = 11.0
+mouse_filter = 2
+script = ExtResource("2_aq2va")
+
+[node name="DeathLabel" type="Label" parent="HUD" unique_id=1765478288]
+visible = false
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_fonts/font = ExtResource("3_ok54l")
+theme_override_font_sizes/font_size = 12
+text = "You died
+Restarting in 5 seconds..."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WinLabel" type="Label" parent="HUD" unique_id=1691037860]
+visible = false
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_fonts/font = ExtResource("3_ok54l")
+theme_override_font_sizes/font_size = 12
+text = "A Winner Is You!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Map" type="Control" parent="HUD" unique_id=1749937384]
+anchors_preset = 0
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -33.0
+offset_top = 6.0
+offset_right = -8.0
+offset_bottom = 26.0
+grow_horizontal = 0
+mouse_filter = 2
+script = ExtResource("4_wn2w2")
+
+[node name="Inventory" type="HBoxContainer" parent="HUD" unique_id=259801687]
+layout_mode = 0
+offset_left = 42.0
+offset_top = 3.0
+offset_right = 134.0
+offset_bottom = 19.0
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="KeyIcon" type="TextureRect" parent="HUD/Inventory" unique_id=765003992]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("5_odnfm")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="KeyCount" type="Label" parent="HUD/Inventory" unique_id=1513147698]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_fonts/font = ExtResource("3_ok54l")
+theme_override_font_sizes/font_size = 12
+text = "0"
+vertical_alignment = 1
+
+[node name="ZombieArmIcon" type="TextureRect" parent="HUD/Inventory" unique_id=1154805464]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("6_7sg2c")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ZombieArmCount" type="Label" parent="HUD/Inventory" unique_id=982919268]
+custom_minimum_size = Vector2(16, 0)
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_fonts/font = ExtResource("3_ok54l")
+theme_override_font_sizes/font_size = 12
+text = "0"
+vertical_alignment = 1

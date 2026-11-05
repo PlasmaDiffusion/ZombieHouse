@@ -1,82 +1,15 @@
 [gd_scene format=3 uid="uid://burkguiwjvyqs"]
 
 [ext_resource type="PackedScene" uid="uid://c3nbdarq76agy" path="res://scenes/objects/player.tscn" id="2_4tcl0"]
-[ext_resource type="FontFile" uid="uid://dnfnlkdssp6w4" path="res://assets/fonts/Minecraft.ttf" id="3_1seuy"]
+[ext_resource type="PackedScene" uid="uid://db8cu5743ql4f" path="res://scenes/levels/main_hud.tscn" id="2_dywbp"]
 [ext_resource type="PackedScene" uid="uid://dvhv7q73b0xf5" path="res://scenes/tilesets/house.tscn" id="3_bfxgj"]
 [ext_resource type="Script" uid="uid://clafd7vd65rk5" path="res://scripts/roomController.gd" id="4_room_controller"]
-[ext_resource type="Script" uid="uid://bkr8ctsalica6" path="res://scripts/hud.gd" id="5_hud"]
 [ext_resource type="PackedScene" uid="uid://c6kdynws2lnx3" path="res://scenes/objects/warp.tscn" id="7_2r1tl"]
-[ext_resource type="Script" uid="uid://diy5qlclgsfjw" path="res://scripts/map.gd" id="8_map"]
-[ext_resource type="Script" uid="uid://7mcelq34bdku" path="res://scripts/health_bar.gd" id="9_health_bar"]
 
 [node name="Level1" type="Node2D" unique_id=1145337196]
 script = ExtResource("4_room_controller")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2031690754]
-
-[node name="HUD" type="Control" parent="CanvasLayer" unique_id=1596769565]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("5_hud")
-
-[node name="HealthBar" type="Control" parent="CanvasLayer/HUD" unique_id=721841417]
-anchors_preset = 0
-offset_left = 8.0
-offset_top = 6.0
-offset_right = 33.0
-offset_bottom = 11.0
-mouse_filter = 2
-script = ExtResource("9_health_bar")
-
-[node name="DeathLabel" type="Label" parent="CanvasLayer/HUD" unique_id=763696566]
-visible = false
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = 1
-theme_override_constants/shadow_offset_y = 1
-theme_override_fonts/font = ExtResource("3_1seuy")
-theme_override_font_sizes/font_size = 12
-text = "You died
-Restarting in 5 seconds..."
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="WinLabel" type="Label" parent="CanvasLayer/HUD" unique_id=814311670]
-visible = false
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = 1
-theme_override_constants/shadow_offset_y = 1
-theme_override_fonts/font = ExtResource("3_1seuy")
-theme_override_font_sizes/font_size = 12
-text = "A Winner Is You!"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Map" type="Control" parent="CanvasLayer/HUD" unique_id=1304937535]
-anchors_preset = 0
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -33.0
-offset_top = 6.0
-offset_right = -8.0
-offset_bottom = 26.0
-grow_horizontal = 0
-mouse_filter = 2
-script = ExtResource("8_map")
+[node name="CanvasLayer" parent="." unique_id=1740813351 instance=ExtResource("2_dywbp")]
 
 [node name="Player" parent="." unique_id=1316597791 instance=ExtResource("2_4tcl0")]
 position = Vector2(85, 24)
