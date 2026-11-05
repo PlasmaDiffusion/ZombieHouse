@@ -28,6 +28,11 @@ func _process(_delta: float) -> void:
 	_open_room_border()
 
 func _open_room_border() -> void:
+	if GameMap.is_win_room():
+		$CanvasLayer/HUD.win()
+		room_cleared = true
+		set_process(false)
+		return
 	if not is_instance_valid(room_border):
 		room_border = find_child("RoomBorder", true, false) as TileMapLayer
 	if room_border == null:

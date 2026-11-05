@@ -3,7 +3,7 @@ extends Control
 const ROOM_LAYOUT = [
 	"xxxx-",
 	"x--xx",
-	"xox-x",
+	"xox-!",
 	"--x--",
 ]
 const START_ROOM = Vector2i(1, 2)
@@ -25,7 +25,12 @@ static func has_room(cell: Vector2i) -> bool:
 	if cell.y < 0 or cell.y >= ROOM_LAYOUT.size():
 		return false
 	var row: String = ROOM_LAYOUT[cell.y]
-	return cell.x >= 0 and cell.x < row.length() and row[cell.x] in ["x", "o"]
+	return cell.x >= 0 and cell.x < row.length() and row[cell.x] in ["x", "o", "!"]
+
+static func is_win_room() -> bool:
+	if not has_room(current_room):
+		return false
+	return ROOM_LAYOUT[current_room.y][current_room.x] == "!"
 
 static func can_move(direction: Vector2i) -> bool:
 	return has_room(current_room + direction)
