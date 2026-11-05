@@ -28,5 +28,5 @@ func _on_player_died() -> void:
 	death_label.show()
 
 func win() -> void:
-	win_label.text = "A Winner Is You!"
+	win_label.text = "A Winner Is You !"
 	win_label.show()
