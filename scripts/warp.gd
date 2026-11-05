@@ -36,15 +36,16 @@ func _change_scene() -> void:
 	var tree := get_tree()
 	var previous_room: Vector2i = GameMap.current_room
 	GameMap.current_room += GameMap.WARP_DIRECTIONS[String(name)]
+	var target_scene := "res://scenes/levels/level_chest.tscn" if GameMap.is_chest_room() else destination_scene
 	var arrival: Array = ARRIVALS[String(name)]
 	var on_loaded := _place_player.bind(tree, arrival[0], arrival[1] * spawn_offset)
 	tree.scene_changed.connect(on_loaded, CONNECT_ONE_SHOT)
-	var error := tree.change_scene_to_file(destination_scene)
+	var error := tree.change_scene_to_file(target_scene)
 	if error != OK:
 		GameMap.current_room = previous_room
 		tree.scene_changed.disconnect(on_loaded)
 		transition_pending = false
-		push_error("Could not load warp destination: %s" % destination_scene)
+		push_error("Could not load warp destination: %s" % target_scene)
 
 static func _place_player(tree: SceneTree, arrival_name: String, offset: Vector2) -> void:
 	var scene := tree.current_scene

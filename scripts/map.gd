@@ -38,7 +38,10 @@ static func has_room(cell: Vector2i) -> bool:
 	if cell.y < 0 or cell.y >= room_layout.size():
 		return false
 	var row: String = room_layout[cell.y]
-	return cell.x >= 0 and cell.x < row.length() and row[cell.x] in ["x", "o", "!"]
+	return cell.x >= 0 and cell.x < row.length() and row[cell.x] in ["x", "o", "!", "c"]
+
+static func is_chest_room() -> bool:
+	return has_room(current_room) and room_layout[current_room.y][current_room.x] == "c"
 
 static func is_win_room() -> bool:
 	if not has_room(current_room):
@@ -65,7 +68,20 @@ static func reset_map(pattern_index: int = -1) -> void:
 			break
 	current_room = start_room
 	_place_win_room()
+	_place_chest_rooms()
 	map_revision += 1
+
+static func _place_chest_rooms() -> void:
+	var candidates: Array[Vector2i] = []
+	for y in range(room_layout.size()):
+		for x in range(room_layout[y].length()):
+			if room_layout[y][x] == "x":
+				candidates.append(Vector2i(x, y))
+	candidates.shuffle()
+	for index in range(randi_range(0, mini(4, candidates.size()))):
+		var cell := candidates[index]
+		var row := room_layout[cell.y]
+		room_layout[cell.y] = row.substr(0, cell.x) + "c" + row.substr(cell.x + 1)
 
 static func _place_win_room() -> void:
 	# Breadth-first search gives shortest-path distances on an unweighted grid.

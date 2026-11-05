@@ -91,6 +91,9 @@ func _border_direction(cell: Vector2i, bounds: Rect2i) -> Vector2i:
 	return directions[closest]
 
 func randomly_place_enemies() -> void:
+	if GameMap.is_chest_room():
+		placing_enemies = false
+		return
 	var available_scenes: Array[PackedScene] = []
 	for scene in enemy_scenes:
 		if scene != null:
