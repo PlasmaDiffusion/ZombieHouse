@@ -61,6 +61,23 @@ text = "A Winner Is You!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="PauseLabel" type="Label" parent="HUD" unique_id=1187236820]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_fonts/font = ExtResource("3_ok54l")
+theme_override_font_sizes/font_size = 12
+text = "PAUSED"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Map" type="Control" parent="HUD" unique_id=1749937384]
 anchors_preset = 0
 anchor_left = 1.0

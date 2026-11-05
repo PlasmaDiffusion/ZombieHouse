@@ -171,7 +171,7 @@ func start_attack() -> void:
 		update_sword_transform(Vector2.UP)
 		
 	# Wait for the attack duration to finish, then end the attack automatically
-	await get_tree().create_timer(attack_duration).timeout
+	await get_tree().create_timer(attack_duration, false).timeout
 	end_attack()
 
 func end_attack() -> void:
@@ -227,7 +227,7 @@ func win() -> void:
 	has_won = true
 	play_sound(WIN_PICKUP_SOUND)
 	won.emit()
-	await get_tree().create_timer(10.0).timeout
+	await get_tree().create_timer(10.0, false).timeout
 	PlayerState.reset()
 	preload("res://scripts/map.gd").reset_map()
 	get_tree().reload_current_scene()
@@ -258,7 +258,7 @@ func die() -> void:
 	hide()
 	died.emit()
 
-	await get_tree().create_timer(5.0).timeout
+	await get_tree().create_timer(5.0, false).timeout
 	PlayerState.reset()
 	preload("res://scripts/map.gd").reset_map()
 	get_tree().reload_current_scene()
