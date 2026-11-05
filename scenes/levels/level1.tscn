@@ -8,6 +8,7 @@
 
 [node name="Level1" type="Node2D" unique_id=1145337196]
 script = ExtResource("4_room_controller")
+debug_all_chest_rooms = false
 
 [node name="CanvasLayer" parent="." unique_id=1740813351 instance=ExtResource("2_dywbp")]
 

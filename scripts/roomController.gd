@@ -20,11 +20,10 @@ var placing_enemies: bool = true
 var room_cleared: bool = false
 
 func _enter_tree() -> void:
-	# Set the mode before the player and minimap initialize.
-	var debug_enabled := OS.is_debug_build() and debug_all_chest_rooms
-	if GameMap.debug_all_chest_rooms != debug_enabled:
-		GameMap.debug_all_chest_rooms = debug_enabled
-		GameMap.reset_map()
+	# The starting scene chooses the mode once; destination scenes keep the run.
+	if GameMap.room_layout.is_empty():
+		GameMap.debug_all_chest_rooms = OS.is_debug_build() and debug_all_chest_rooms
+		GameMap.ensure_map()
 
 func _ready() -> void:
 	# Allow tile collision bodies and the warp arrival position to update first.
