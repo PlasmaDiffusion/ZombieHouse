@@ -45,6 +45,7 @@ var iframes: float = 0.0
 @onready var audio_player: AudioStreamPlayer = $AudioStreamPlayer
 
 var is_dead: bool = false
+var has_won: bool = false
 var is_attacking: bool = false
 var last_facing_direction: Vector2 = Vector2.DOWN
 
@@ -116,7 +117,7 @@ func _physics_process(delta: float) -> void:
 		animated_sprite.frame = 0
 
 func shoot_projectile() -> void:
-	if is_dead || zombie_arm_count <= 0:
+	if is_dead or zombie_arm_count <= 0:
 		return
 	var projectile := PLAYER_PROJECTILE_SCENE.instantiate() as Area2D
 	projectile.direction = last_facing_direction
@@ -221,11 +222,18 @@ func play_pickup_sound() -> void:
 	play_sound(PICKUP_SOUND)
 
 func win() -> void:
+	if is_dead or has_won:
+		return
+	has_won = true
 	play_sound(WIN_PICKUP_SOUND)
 	won.emit()
+	await get_tree().create_timer(10.0).timeout
+	PlayerState.reset()
+	preload("res://scripts/map.gd").reset_map()
+	get_tree().reload_current_scene()
 
 func take_damage(amount: float) -> void:
-	if is_dead or iframes > 0.0 or is_queued_for_deletion() or amount <= 0.0:
+	if is_dead or has_won or iframes > 0.0 or is_queued_for_deletion() or amount <= 0.0:
 		return
 	health = maxf(0.0, health - amount)
 	play_sound(HURT_SOUND)
@@ -236,7 +244,7 @@ func take_damage(amount: float) -> void:
 		die()
 
 func die() -> void:
-	if is_dead:
+	if is_dead or has_won:
 		return
 	is_dead = true
 	play_sound(DEATH_SOUND)
