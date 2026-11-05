@@ -45,6 +45,8 @@ func _ready() -> void:
 		health = clampf(PlayerState.health, 0.0, maxHealth)
 		key_count = PlayerState.key_count
 		zombie_arm_count = PlayerState.zombie_arm_count
+	elif preload("res://scripts/map.gd").debug_all_chest_rooms:
+		key_count = 10
 	# Seed from the first player's Inspector values; later scenes restore these.
 	PlayerState.health = health
 	PlayerState.key_count = key_count
@@ -121,7 +123,10 @@ func _check_locked_tiles() -> void:
 		var layer := collision.get_collider() as TileMapLayer
 		if layer == null:
 			continue
-		var cell := layer.get_coords_for_body_rid(collision.get_collider_rid())
+		# A physics body can contain multiple tiles, so its RID is not a cell ID.
+		# Move slightly inside the surface to resolve the tile at the contact point.
+		var contact_point := collision.get_position() - collision.get_normal() * 0.5
+		var cell := layer.local_to_map(layer.to_local(contact_point))
 		if layer.get_cell_atlas_coords(cell) != Vector2i(2, 2):
 			continue
 		key_count -= 1

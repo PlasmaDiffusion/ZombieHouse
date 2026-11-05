@@ -14,9 +14,17 @@ const PICKUP_SCENE = preload("res://scenes/objects/pickup.tscn")
 @export var room_border: TileMapLayer
 
 @export var enemy_spawn_safe_distance: float = 48.0
+@export var debug_all_chest_rooms: bool = true
 
 var placing_enemies: bool = true
 var room_cleared: bool = false
+
+func _enter_tree() -> void:
+	# Set the mode before the player and minimap initialize.
+	var debug_enabled := OS.is_debug_build() and debug_all_chest_rooms
+	if GameMap.debug_all_chest_rooms != debug_enabled:
+		GameMap.debug_all_chest_rooms = debug_enabled
+		GameMap.reset_map()
 
 func _ready() -> void:
 	# Allow tile collision bodies and the warp arrival position to update first.

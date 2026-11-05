@@ -26,6 +26,7 @@ static var room_layout: Array[String] = []
 static var start_room := Vector2i.ZERO
 static var current_room := Vector2i.ZERO
 static var map_revision: int = 0
+static var debug_all_chest_rooms: bool = false
 var drawn_room := Vector2i(-1, -1)
 var drawn_revision: int = -1
 
@@ -69,6 +70,9 @@ static func reset_map(pattern_index: int = -1) -> void:
 	current_room = start_room
 	_place_win_room()
 	_place_chest_rooms()
+	if debug_all_chest_rooms:
+		for y in range(room_layout.size()):
+			room_layout[y] = room_layout[y].replace("x", "c").replace("o", "c").replace("!", "c")
 	map_revision += 1
 
 static func _place_chest_rooms() -> void:
