@@ -8,6 +8,7 @@ extends Control
 func _ready() -> void:
 	player.health_changed.connect(_update_health)
 	player.died.connect(_on_player_died)
+	player.won.connect(win)
 	_update_health(player.health)
 	death_label.hide()
 	win_label.hide()

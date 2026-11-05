@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://c2nuianr2eeyk"]
+
+[ext_resource type="Script" uid="uid://id14srt0hc5d" path="res://scripts/pickup.gd" id="1_ug66n"]
+[ext_resource type="Texture2D" uid="uid://0lfsy7w6sliy" path="res://assets/images/herb.png" id="2_7p3uj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hbmba"]
+size = Vector2(13, 12)
+
+[node name="Pickup" type="Area2D" unique_id=1912676243]
+script = ExtResource("1_ug66n")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=679239655]
+texture = ExtResource("2_7p3uj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2113085906]
+position = Vector2(0.5, 0)
+shape = SubResource("RectangleShape2D_hbmba")

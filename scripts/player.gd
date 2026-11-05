@@ -2,6 +2,10 @@ extends CharacterBody2D
 
 signal health_changed(current_health: float)
 signal died
+signal won
+
+var key_count: int = 0
+var zombie_arm_count: int = 0
 
 @export var health: float = 5.0
 @export var maxHealth: float = 5.0
@@ -126,6 +130,15 @@ func update_sword_transform(dir: Vector2) -> void:
 		sword_area.position = Vector2(0, 10)
 		sword_area.rotation = deg_to_rad(-90)
 		sword_area.scale.y = -1.0
+
+func heal(amount: float) -> void:
+	if is_dead or amount <= 0.0:
+		return
+	health = minf(maxHealth, health + amount)
+	health_changed.emit(health)
+
+func win() -> void:
+	won.emit()
 
 func take_damage(amount: float) -> void:
 	if is_dead or iframes > 0.0 or is_queued_for_deletion() or amount <= 0.0:
