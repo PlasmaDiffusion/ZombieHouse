@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://b7pg1qdaueea6"]
+
+[ext_resource type="Script" uid="uid://rca8iys1txit" path="res://scripts/enemies/projectile.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://b275hek8dqs25" path="res://assets/images/EyeProjectile.png" id="2_texture"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_projectile"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_texture")
+}],
+"loop": 1,
+"name": &"walk_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_texture")
+}],
+"loop": 1,
+"name": &"walk_right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_texture")
+}],
+"loop": 1,
+"name": &"walk_up",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8a7m2"]
+size = Vector2(5, 5)
+
+[node name="Projectile" type="CharacterBody2D" unique_id=1907016316]
+script = ExtResource("1_script")
+canAutomaticallyMove = false
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=87589299]
+sprite_frames = SubResource("SpriteFrames_projectile")
+animation = &"walk_down"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1588593210]
+shape = SubResource("RectangleShape2D_8a7m2")

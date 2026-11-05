@@ -1,3 +1,4 @@
+class_name Enemy
 extends CharacterBody2D
 
 @export var speed: float = 60.0
@@ -10,6 +11,8 @@ extends CharacterBody2D
 
 @export var damage: float = 1.0
 @export var health: float = 2.0
+@export var canAutomaticallyMove: bool = true
+@export var canKill: bool = true
 # Invincibility duration in physics frames.
 @export var max_iframes: float = 10.0
 var iframes: float = 0.0
@@ -18,7 +21,8 @@ var iframes: float = 0.0
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 func _ready() -> void:
-	add_to_group("enemies")
+	if (canKill):
+		add_to_group("enemies")
 	set_collision_mask_value(1, true)
 
 func _process(_delta: float) -> void:
@@ -30,19 +34,21 @@ func _process(_delta: float) -> void:
 
 func _physics_process(delta: float) -> void:
 	iframes = maxf(0.0, iframes - 1.0)
-	# Check boundaries and automatically reverse direction
-	if global_position.x >= max_x:
-		direction = Vector2.LEFT
-	elif global_position.x <= min_x:
-		direction = Vector2.RIGHT
-		
-	if global_position.y >= max_y:
-		direction = Vector2.UP
-	elif global_position.y <= min_y:
-		direction = Vector2.DOWN
 
-	# Apply velocity and move automatically
-	velocity = direction * speed
+	if canAutomaticallyMove:
+		# Check boundaries and automatically reverse direction
+		if global_position.x >= max_x:
+			direction = Vector2.LEFT
+		elif global_position.x <= min_x:
+			direction = Vector2.RIGHT
+
+		if global_position.y >= max_y:
+			direction = Vector2.UP
+		elif global_position.y <= min_y:
+			direction = Vector2.DOWN
+
+		# Apply velocity and move automatically
+		velocity = direction * speed
 	move_and_slide()
 	_reverse_on_tile_collision()
 	_check_player_contact()
@@ -59,7 +65,7 @@ func _physics_process(delta: float) -> void:
 		animated_sprite.flip_h = false
 
 func take_damage(sword: Area2D) -> void:
-	if iframes > 0.0 or is_queued_for_deletion():
+	if iframes > 0.0 or is_queued_for_deletion() or !canKill:
 		return
 	var amount: float = sword.damage
 	if amount <= 0.0:

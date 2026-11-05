@@ -50,7 +50,7 @@ Restarting in 5 seconds..."
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="WinLabel" type="Label" parent="CanvasLayer/HUD"]
+[node name="WinLabel" type="Label" parent="CanvasLayer/HUD" unique_id=814311670]
 visible = false
 layout_mode = 0
 anchor_right = 1.0

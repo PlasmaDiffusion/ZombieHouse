@@ -1,7 +1,12 @@
 extends Node2D
 
 const GameMap = preload("res://scripts/map.gd")
-const ENEMY_SCENE = preload("res://scenes/objects/enemy.tscn")
+
+# Add scenes whose root inherits Enemy and has a CollisionShape2D child.
+@export var enemy_scenes: Array[PackedScene] = [
+	preload("res://scenes/objects/enemy.tscn"),
+	preload("res://scenes/objects/enemies/ghostlyEye.tscn"),
+]
 
 # Assign in the Inspector, or name a descendant TileMapLayer RoomBorder.
 @export var room_border: TileMapLayer
@@ -68,6 +73,14 @@ func _border_direction(cell: Vector2i, bounds: Rect2i) -> Vector2i:
 	return directions[closest]
 
 func randomly_place_enemies() -> void:
+	var available_scenes: Array[PackedScene] = []
+	for scene in enemy_scenes:
+		if scene != null:
+			available_scenes.append(scene)
+	if available_scenes.is_empty():
+		placing_enemies = false
+		return
+
 	if not is_instance_valid(room_border):
 		room_border = find_child("RoomBorder", true, false) as TileMapLayer
 	if room_border == null or room_border.tile_set == null:
@@ -92,8 +105,17 @@ func randomly_place_enemies() -> void:
 	var placed_positions: Array[Vector2] = []
 	var space := get_world_2d().direct_space_state
 	for index in range(randi_range(1, 4)):
-		var enemy := ENEMY_SCENE.instantiate() as CharacterBody2D
-		var shape := enemy.get_node("CollisionShape2D") as CollisionShape2D
+		var instance := (available_scenes.pick_random() as PackedScene).instantiate()
+		var enemy := instance as Enemy
+		if enemy == null:
+			instance.free()
+			push_warning("Enemy scenes must have a root that inherits Enemy.")
+			continue
+		var shape := enemy.get_node_or_null("CollisionShape2D") as CollisionShape2D
+		if shape == null or shape.shape == null:
+			enemy.free()
+			push_warning("Enemy scenes must have a CollisionShape2D child with a shape.")
+			continue
 		var placed := false
 		for attempt in range(256):
 			var point := room_border.to_global(Vector2(
